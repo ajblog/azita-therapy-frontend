@@ -1,59 +1,81 @@
 <template>
-  <div class="max-w-7xl mx-auto p-6 mt-10">
-    <div
-      class="grid grid-cols-1 md:grid-cols-3 gap-8 animate__animated animate__fadeInUp"
-    >
-      <!-- Widget 1: Therapy Session -->
+  <div class="max-w-7xl mx-auto py-12 px-6">
+    <!-- Section Header -->
+    <div class="text-center mb-12">
+      <h2
+        class="text-3xl font-bold text-green-800 hover:text-green-900 transition-all duration-300"
+      >
+        خدمات ویژه درمانی
+      </h2>
+      <div class="w-20 mx-auto mt-4 border-b-4 border-green-600"></div>
+      <p class="text-lg text-green-600 mt-4">
+        مجموعه‌ای از خدمات روان‌شناسی برای بهبود کیفیت زندگی شما.
+      </p>
+    </div>
+
+    <!-- Cards Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
+      <!-- Decorative Gradient Background -->
       <div
-        class="bg-white/50 backdrop-blur-lg p-6 rounded-xl shadow-lg space-y-4 hover:shadow-2xl transition-all duration-500"
+        class="absolute inset-0 bg-gradient-to-r from-green-100 to-teal-100 opacity-30 rounded-xl -z-10"
+      ></div>
+
+      <!-- Card 1: Therapy Session -->
+      <div
+        class="group relative bg-white p-6 rounded-lg shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 space-y-6 border border-green-100 hover:border-green-300"
       >
         <div
-          class="flex justify-center items-center bg-green-600 p-4 rounded-full text-white"
+          class="w-20 h-20 flex justify-center items-center bg-green-600 text-white rounded-full shadow-md mx-auto group-hover:scale-110 transition-transform duration-300"
         >
           <i class="fas fa-heartbeat text-3xl"></i>
         </div>
-        <h3 class="text-xl font-semibold text-green-700 text-center">
-          Therapy Session
+        <h3
+          class="text-xl font-bold text-green-800 group-hover:text-green-900 text-center transition-all duration-300"
+        >
+          جلسه درمانی
         </h3>
-        <p class="text-green-600 text-center">
-          A safe space to explore thoughts and emotions. Schedule your next
-          session for meaningful conversations.
+        <p class="text-sm text-green-600 text-center">
+          ایجاد فضایی امن برای بیان افکار و احساسات. جلسه درمانی خود را
+          برنامه‌ریزی کنید.
         </p>
       </div>
 
-      <!-- Widget 2: Consultation -->
+      <!-- Card 2: Consultation -->
       <div
-        class="bg-white/50 backdrop-blur-lg p-6 rounded-xl shadow-lg space-y-4 hover:shadow-2xl transition-all duration-500"
+        class="group relative bg-white p-6 rounded-lg shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 space-y-6 border border-teal-100 hover:border-teal-300"
       >
         <div
-          class="flex justify-center items-center bg-teal-500 p-4 rounded-full text-white"
+          class="w-20 h-20 flex justify-center items-center bg-teal-500 text-white rounded-full shadow-md mx-auto group-hover:scale-110 transition-transform duration-300"
         >
           <i class="fas fa-comments text-3xl"></i>
         </div>
-        <h3 class="text-xl font-semibold text-green-700 text-center">
-          Consultation
+        <h3
+          class="text-xl font-bold text-teal-800 group-hover:text-teal-900 text-center transition-all duration-300"
+        >
+          مشاوره فردی
         </h3>
-        <p class="text-green-600 text-center">
-          Talk about your mental well-being and start your journey towards
-          emotional healing. Book an appointment.
+        <p class="text-sm text-teal-600 text-center">
+          درباره سلامت روانی خود صحبت کنید و بهبود زندگی‌تان را آغاز کنید.
         </p>
       </div>
 
-      <!-- Widget 3: Mindfulness -->
+      <!-- Card 3: Mindfulness -->
       <div
-        class="bg-white/50 backdrop-blur-lg p-6 rounded-xl shadow-lg space-y-4 hover:shadow-2xl transition-all duration-500"
+        class="group relative bg-white p-6 rounded-lg shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 space-y-6 border border-teal-100 hover:border-teal-300"
       >
         <div
-          class="flex justify-center items-center bg-teal-400 p-4 rounded-full text-white"
+          class="w-20 h-20 flex justify-center items-center bg-teal-400 text-white rounded-full shadow-md mx-auto group-hover:scale-110 transition-transform duration-300"
         >
           <i class="fas fa-puzzle-piece text-3xl"></i>
         </div>
-        <h3 class="text-xl font-semibold text-green-700 text-center">
-          Mindfulness
+        <h3
+          class="text-xl font-bold text-teal-800 group-hover:text-teal-900 text-center transition-all duration-300"
+        >
+          تکنیک‌های ذهن‌آگاهی
         </h3>
-        <p class="text-green-600 text-center">
-          Embrace mindfulness techniques to center yourself and overcome mental
-          hurdles. Get started with our tools.
+        <p class="text-sm text-teal-600 text-center">
+          استفاده از تکنیک‌های ذهن‌آگاهی برای دستیابی به آرامش و غلبه بر
+          چالش‌ها.
         </p>
       </div>
     </div>
@@ -61,35 +83,21 @@
 </template>
 
 <script setup lang="ts">
-// No specific script logic needed for this component
+// No additional logic is required for this static component.
 </script>
 
 <style scoped>
-@keyframes fadeInUp {
-  0% {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
+/* Animation for hover scale */
+.group:hover .group-hover\:scale-110 {
+  transform: scale(1.1);
 }
 
-.animate__fadeInUp {
-  animation: fadeInUp 1s ease-out;
+/* Transition utilities for hover states */
+.group:hover .group-hover\:text-green-900 {
+  color: #065f46;
 }
 
-/* Additional styling for hover effect */
-.bg-green-600:hover {
-  background-color: #16a34a; /* Darker green on hover */
-}
-
-.bg-teal-500:hover {
-  background-color: #14b8a6; /* Darker teal on hover */
-}
-
-.bg-teal-400:hover {
-  background-color: #2dd4bf; /* Darker teal on hover */
+.group:hover .group-hover\:text-teal-900 {
+  color: #0d9488;
 }
 </style>

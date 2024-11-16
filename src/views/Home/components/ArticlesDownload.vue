@@ -1,0 +1,106 @@
+<template>
+  <section
+    class="bg-gradient-to-b from-green-50 to-green-100 py-12 px-6 lg:px-16"
+  >
+    <!-- Section Header -->
+    <div class="text-center mb-12">
+      <h2
+        class="text-3xl font-extrabold text-green-700 tracking-tight hover:underline underline-offset-4 decoration-green-500 transition-all duration-300"
+      >
+        مقالات علمی و کاربردی
+      </h2>
+      <p class="text-base text-green-600 mt-4 max-w-2xl mx-auto">
+        کاوش در مقالات علمی و تحقیقاتی ما برای دستیابی به دانش بیشتر و آرامش
+        درونی.
+      </p>
+    </div>
+
+    <!-- Articles Grid -->
+    <div class="grid gap-10 md:grid-cols-2 lg:grid-cols-3">
+      <div
+        v-for="article in articles"
+        :key="article.title"
+        class="group relative bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
+      >
+        <!-- Decorative Line -->
+        <div
+          class="absolute -top-4 -right-4 w-16 h-16 rounded-full bg-gradient-to-tr from-green-300 to-green-500 opacity-30 group-hover:opacity-60 transition-opacity duration-300"
+        ></div>
+
+        <!-- Image -->
+        <div class="relative overflow-hidden rounded-lg">
+          <img
+            :src="article.image"
+            :alt="article.title"
+            class="w-full h-40 object-cover group-hover:scale-105 transition-transform duration-300"
+          />
+        </div>
+
+        <!-- Article Content -->
+        <div class="mt-6">
+          <h3
+            class="text-lg font-semibold text-green-800 group-hover:text-green-900 transition-all duration-300"
+          >
+            {{ article.title }}
+          </h3>
+          <p class="text-sm text-green-600 mt-2">
+            {{ article.description }}
+          </p>
+        </div>
+
+        <!-- Download Link -->
+        <div class="mt-4">
+          <a
+            :href="article.link"
+            target="_blank"
+            class="inline-block text-sm font-medium px-5 py-2 rounded-lg bg-green-600 text-white shadow-md hover:bg-green-700 hover:shadow-lg transition-all duration-300"
+          >
+            دانلود مقاله
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- View More Button -->
+    <div class="text-center mt-12">
+      <button
+        @click="redirectToArticlesPage"
+        class="inline-block text-lg font-semibold px-8 py-3 rounded-lg bg-green-700 text-white shadow-md hover:bg-green-800 hover:shadow-lg transition-all duration-300"
+      >
+        مشاهده‌ی مقالات بیشتر
+      </button>
+    </div>
+  </section>
+</template>
+
+<script setup lang="ts">
+const articles = [
+  {
+    title: "قدرت ذهن‌آگاهی",
+    description: "با تکنیک‌های ورود ذهن‌آگاهی به زندگی روزمره آشنا شوید.",
+    link: "#",
+    image: "https://via.placeholder.com/400x300?text=ذهن‌آگاهی",
+  },
+  {
+    title: "غلبه بر اضطراب",
+    description: "راهنمای مفید برای مدیریت و غلبه بر اضطراب.",
+    link: "#",
+    image: "https://via.placeholder.com/400x300?text=اضطراب",
+  },
+  {
+    title: "ساخت روابط سالم",
+    description: "نحوه پرورش و حفظ روابط سالم را بیاموزید.",
+    link: "#",
+    image: "https://via.placeholder.com/400x300?text=روابط+سالم",
+  },
+];
+
+// Redirect Function
+const redirectToArticlesPage = () => {
+  window.location.href = "/articles"; // Replace with your actual route
+};
+</script>
+
+<style scoped>
+/* Add subtle custom animations or additional styles here */
+</style>
