@@ -1,6 +1,6 @@
 <template>
   <section
-    class="bg-gradient-to-b from-green-50 to-green-100 py-12 px-6 lg:px-16"
+    class="bg-gradient-to-b from-green-50 to-green-100 py-12 px-6 lg:px-16 mt-10"
   >
     <!-- Section Header -->
     <div class="text-center mb-12">
