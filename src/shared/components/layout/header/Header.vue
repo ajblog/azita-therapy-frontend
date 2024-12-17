@@ -11,6 +11,11 @@
         <router-link to="/" class="text-lg text-green-600 hover:text-green-800"
           >خانه</router-link
         >
+        <router-link
+          to="/blog"
+          class="text-lg text-green-600 hover:text-green-800"
+          >بلاگ</router-link
+        >
         <!-- Home -->
         <router-link
           to="/about"
@@ -75,6 +80,12 @@
       <nav class="space-y-4">
         <router-link to="/" class="block text-green-600 hover:text-green-800">
           خانه
+        </router-link>
+        <router-link
+          to="/blog"
+          class="block text-green-600 hover:text-green-800"
+        >
+          بلاگ
         </router-link>
         <!-- Home -->
         <router-link
