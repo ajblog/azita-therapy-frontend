@@ -8,28 +8,46 @@
 
       <!-- Desktop Navigation Links -->
       <nav class="hidden md:flex gap-6">
-        <a href="#" class="text-lg text-green-600 hover:text-green-800">خانه</a>
+        <router-link to="/" class="text-lg text-green-600 hover:text-green-800"
+          >خانه</router-link
+        >
+        <router-link
+          to="/blog"
+          class="text-lg text-green-600 hover:text-green-800"
+          >بلاگ</router-link
+        >
         <!-- Home -->
-        <a href="#" class="text-lg text-green-600 hover:text-green-800"
-          >درباره</a
+        <router-link
+          to="/about"
+          class="text-lg text-green-600 hover:text-green-800"
+          >درباره</router-link
+        >
+        <router-link
+          to="/articles"
+          class="text-lg text-green-600 hover:text-green-800"
+          >مقالات</router-link
         >
         <!-- About -->
-        <a href="#" class="text-lg text-green-600 hover:text-green-800"
-          >خدمات</a
-        >
+        <!-- <router-link to="#" class="text-lg text-green-600 hover:text-green-800"
+          >خدمات</router-link
+        > -->
         <!-- Services -->
-        <a href="#" class="text-lg text-green-600 hover:text-green-800">تماس</a>
+        <router-link
+          to="/contact"
+          class="text-lg text-green-600 hover:text-green-800"
+          >تماس</router-link
+        >
         <!-- Contact -->
       </nav>
 
       <!-- Sign In Section (Visible on both desktop and mobile) -->
-      <div class="flex items-center space-x-4">
+      <div class="flex items-center">
         <!-- Sign In (Desktop) -->
-        <button
+        <!-- <button
           class="bg-green-600 text-white py-2 px-4 rounded-full hover:bg-green-700 md:block hidden"
         >
           ورود/ثبت نام
-        </button>
+        </button> -->
         <!-- Sign In (Desktop) -->
       </div>
 
@@ -60,27 +78,46 @@
     <!-- Mobile Menu (Hidden by default, shown when the burger is clicked) -->
     <div v-show="isMobileMenuOpen" class="md:hidden bg-green-50 p-4">
       <nav class="space-y-4">
-        <a href="#" class="block text-green-600 hover:text-green-800"> خانه </a>
+        <router-link to="/" class="block text-green-600 hover:text-green-800">
+          خانه
+        </router-link>
+        <router-link
+          to="/blog"
+          class="block text-green-600 hover:text-green-800"
+        >
+          بلاگ
+        </router-link>
         <!-- Home -->
-        <a href="#" class="block text-green-600 hover:text-green-800">
+        <router-link
+          to="/about"
+          class="block text-green-600 hover:text-green-800"
+        >
           درباره
-        </a>
+        </router-link>
         <!-- About -->
-        <a href="#" class="block text-green-600 hover:text-green-800">
-          خدمات
-        </a>
+        <router-link
+          to="/articles"
+          class="block text-green-600 hover:text-green-800"
+        >
+          مقالات
+        </router-link>
         <!-- Services -->
-        <a href="#" class="block text-green-600 hover:text-green-800"> تماس </a>
+        <router-link
+          to="/contact"
+          class="block text-green-600 hover:text-green-800"
+        >
+          تماس
+        </router-link>
         <!-- Contact -->
       </nav>
 
       <!-- Sign In Button on Mobile -->
       <div class="mt-4">
-        <button
+        <!-- <button
           class="w-full bg-green-600 text-white py-2 px-4 rounded-full hover:bg-green-700"
         >
           ورود/ثبت نام
-        </button>
+        </button> -->
         <!-- Sign In (Mobile) -->
       </div>
     </div>
