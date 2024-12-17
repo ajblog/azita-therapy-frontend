@@ -74,6 +74,9 @@
 </template>
 
 <script setup lang="ts">
+import { useRouter } from "vue-router";
+
+const router = useRouter();
 const articles = [
   {
     title: "قدرت ذهن‌آگاهی",
@@ -97,7 +100,8 @@ const articles = [
 
 // Redirect Function
 const redirectToArticlesPage = () => {
-  window.location.href = "/articles"; // Replace with your actual route
+  // Replace with your actual route
+  router.push("/articles");
 };
 </script>
 
