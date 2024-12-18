@@ -25,7 +25,8 @@
       <div
         class="bg-white shadow-lg rounded-lg overflow-auto transition-transform duration-500 hover:scale-[1.01]"
       >
-        <table
+      <div v-if="loading"><Spinner size="w-32"/></div>
+      <table v-else
           class="w-full table-auto border-collapse text-sm md:text-base rtl"
         >
           <!-- Table Header -->
@@ -34,7 +35,6 @@
               <th class="py-3 px-4">عنوان</th>
               <th class="py-3 px-4 hidden sm:table-cell">توضیحات</th>
               <th class="py-3 px-4">نویسندگان</th>
-              <th class="py-3 px-4">دسته‌بندی</th>
               <th class="py-3 px-4 text-left"></th>
             </tr>
           </thead>
@@ -46,29 +46,29 @@
               class="hover:bg-gray-100 transition-colors duration-300"
             >
               <td class="py-4 px-4 text-gray-700 text-right">
-                {{ article.title }}
+                {{ article.name }}
               </td>
               <td
                 class="py-4 px-4 text-gray-500 text-right hidden sm:table-cell"
               >
                 {{ article.description }}
               </td>
-              <td class="py-4 px-4 text-right">
-                {{ article.authors }}
-              </td>
+       
               <td class="py-4 px-4 text-right">
                 <span
                   class="inline-block bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm"
                 >
-                  {{ article.category }}
+                {{ article.writer[0] }}
                 </span>
               </td>
               <td class="py-4 px-4 text-left">
-                <button
+                <a
+                  :href="article.file_address"
+                  target="_blank"
                   class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded transition-all duration-300"
                 >
                   دانلود
-                </button>
+              </a>
               </td>
             </tr>
           </tbody>
@@ -78,33 +78,27 @@
   </div>
 </template>
 
-<script setup>
-const articles = [
-  {
-    title: "روان‌شناسی بالینی",
-    description: "مقاله‌ای درباره روش‌های نوین درمان بالینی.",
-    authors: "دکتر علی احمدی",
-    category: "روان‌شناسی",
-  },
-  {
-    title: "تغذیه و سلامت",
-    description: "اهمیت تغذیه سالم در زندگی روزمره.",
-    authors: "مهندس زهرا رضایی",
-    category: "سلامت",
-  },
-  {
-    title: "پیشگیری از بیماری‌ها",
-    description: "بررسی راهکارهای پیشگیری از بیماری‌های شایع.",
-    authors: "دکتر محمد کریمی",
-    category: "پزشکی",
-  },
-  {
-    title: "آموزش سلامت",
-    description: "راهنمای جامع آموزش سلامت.",
-    authors: "دکتر فاطمه صادقی",
-    category: "سلامت",
-  },
-];
+<script setup lang="ts">
+import { ref, onMounted } from 'vue';
+import Spinner from '@/shared/components/ui/Spinner/Spinner.vue';  // Import the spinner component
+import { Article, getArticles } from "@/api/articles";
+
+
+// Store articles data
+const articles = ref<Article[]>([]);
+const loading = ref<boolean>(true);  // Track the loading state
+
+// Fetch articles on component mount
+onMounted(async () => {
+  try {
+    const response = await getArticles();  // Fetch articles using API
+    articles.value = response.data;  // Store fetched articles
+  } catch (error) {
+    console.error('Error fetching articles:', error);
+  } finally {
+    loading.value = false;  // Stop loading once the data is fetched
+  }
+});
 </script>
 
 <style scoped>
