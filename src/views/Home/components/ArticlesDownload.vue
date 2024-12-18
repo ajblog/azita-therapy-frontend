@@ -1,3 +1,37 @@
+<script setup lang="ts">
+import { useRouter } from "vue-router";
+import { ref, onMounted } from 'vue';
+import { getArticles, Article } from '../../../api/articles';  // Importing the API call
+import Spinner from '@/shared/components/ui/Spinner/Spinner.vue';  // Import the spinner component
+
+const router = useRouter();
+
+// Redirect Function
+const redirectToArticlesPage = () => {
+  router.push("/articles");
+};
+
+// Store articles data
+const articles = ref<Article[]>([]);
+const loading = ref<boolean>(true);  // Track the loading state
+
+// Fetch articles on component mount
+onMounted(async () => {
+  try {
+    const response = await getArticles();  // Fetch articles using API
+    articles.value = response.data;  // Store fetched articles
+  } catch (error) {
+    console.error('Error fetching articles:', error);
+  } finally {
+    loading.value = false;  // Stop loading once the data is fetched
+  }
+});
+</script>
+
+<style scoped>
+/* Add subtle custom animations or additional styles here */
+</style>
+
 <template>
   <section
     class="bg-gradient-to-b from-green-50 to-green-100 py-12 px-6 lg:px-16 mt-10"
@@ -15,11 +49,14 @@
       </p>
     </div>
 
-    <!-- Articles Grid -->
-    <div class="grid gap-10 md:grid-cols-2 lg:grid-cols-3">
+    <!-- Articles Grid or Spinner -->
+    <div v-if="loading" class="flex justify-center items-center">
+      <Spinner size="w-20" />
+    </div>
+    <div v-else class="grid gap-10 md:grid-cols-2 lg:grid-cols-3">
       <div
-        v-for="article in articles"
-        :key="article.title"
+        v-for="article in articles.slice(0,3)"
+        :key="article.name"
         class="group relative bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300"
       >
         <!-- Decorative Line -->
@@ -30,8 +67,8 @@
         <!-- Image -->
         <div class="relative overflow-hidden rounded-lg">
           <img
-            :src="article.image"
-            :alt="article.title"
+            :src="`https://via.placeholder.com/400x300?text=${article.name}`"
+            :alt="article.name"
             class="w-full h-40 object-cover group-hover:scale-105 transition-transform duration-300"
           />
         </div>
@@ -41,7 +78,7 @@
           <h3
             class="text-lg font-semibold text-green-800 group-hover:text-green-900 transition-all duration-300"
           >
-            {{ article.title }}
+            {{ article.name }}
           </h3>
           <p class="text-sm text-green-600 mt-2">
             {{ article.description }}
@@ -51,7 +88,7 @@
         <!-- Download Link -->
         <div class="mt-4">
           <a
-            :href="article.link"
+            :href="article.file_address"
             target="_blank"
             class="inline-block text-sm font-medium px-5 py-2 rounded-lg bg-green-600 text-white shadow-md hover:bg-green-700 hover:shadow-lg transition-all duration-300"
           >
@@ -73,38 +110,4 @@
   </section>
 </template>
 
-<script setup lang="ts">
-import { useRouter } from "vue-router";
 
-const router = useRouter();
-const articles = [
-  {
-    title: "قدرت ذهن‌آگاهی",
-    description: "با تکنیک‌های ورود ذهن‌آگاهی به زندگی روزمره آشنا شوید.",
-    link: "#",
-    image: "https://via.placeholder.com/400x300?text=ذهن‌آگاهی",
-  },
-  {
-    title: "غلبه بر اضطراب",
-    description: "راهنمای مفید برای مدیریت و غلبه بر اضطراب.",
-    link: "#",
-    image: "https://via.placeholder.com/400x300?text=اضطراب",
-  },
-  {
-    title: "ساخت روابط سالم",
-    description: "نحوه پرورش و حفظ روابط سالم را بیاموزید.",
-    link: "#",
-    image: "https://via.placeholder.com/400x300?text=روابط+سالم",
-  },
-];
-
-// Redirect Function
-const redirectToArticlesPage = () => {
-  // Replace with your actual route
-  router.push("/articles");
-};
-</script>
-
-<style scoped>
-/* Add subtle custom animations or additional styles here */
-</style>
