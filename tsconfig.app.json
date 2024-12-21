@@ -19,7 +19,7 @@
     "src/**/*.ts",
     "src/**/*.d.ts",
     "src/**/*.tsx",
-    "src/**/*.vue"  // Add this line to include .vue files
+    "src/**/*.vue" // Add this line to include .vue files
   ],
   "exclude": ["node_modules"]
 }
