@@ -17,7 +17,10 @@
 
     <!-- Blog Posts -->
     <section class="container mx-auto px-4 mt-12">
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div
+        v-if="!loading"
+        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+      >
         <div
           v-for="post in posts"
           :key="post.id"
@@ -25,7 +28,7 @@
         >
           <!-- Blog Image -->
           <img
-            :src="post.image"
+            :src="post.picture"
             alt="Blog Image"
             class="w-full h-48 object-cover"
           />
@@ -35,9 +38,11 @@
               {{ post.title }}
             </h2>
             <p class="text-sm text-gray-500 mt-2">
-              {{ formatDate(post.date) }}
+              {{ formatDate(post.created_at) }}
             </p>
-            <p class="text-gray-600 mt-4 line-clamp-3">{{ post.excerpt }}</p>
+            <p class="text-gray-600 mt-4 line-clamp-3">
+              {{ post.description }}
+            </p>
             <div class="mt-6 text-right">
               <router-link
                 :to="`/blog/${post.id}`"
@@ -49,9 +54,10 @@
           </div>
         </div>
       </div>
+      <div v-if="loading"><Spinner /></div>
 
       <!-- Pagination -->
-      <div class="flex justify-center mt-12">
+      <!-- <div class="flex justify-center mt-12">
         <button
           class="mx-2 px-4 py-2 rounded-full bg-gray-200 hover:bg-gray-300 transition"
           v-for="page in totalPages"
@@ -61,55 +67,44 @@
         >
           {{ page }}
         </button>
-      </div>
+      </div> -->
     </section>
   </div>
 </template>
 
-<script setup>
-import { ref } from "vue";
-
-const posts = ref([
-  {
-    id: 1,
-    title: "پست اول",
-    date: "2024-06-15",
-    image: "https://via.placeholder.com/300x200",
-    excerpt: "این یک خلاصه کوتاه از پست اول است.",
-  },
-  {
-    id: 2,
-    title: "پست دوم",
-    date: "2024-06-14",
-    image: "https://via.placeholder.com/300x200",
-    excerpt: "خلاصه‌ای از پست دوم که شامل محتوای جذابی است.",
-  },
-  {
-    id: 3,
-    title: "پست سوم",
-    date: "2024-06-12",
-    image: "https://via.placeholder.com/300x200",
-    excerpt: "خلاصه کوتاه پست سوم برای جذب مخاطب.",
-  },
-  {
-    id: 4,
-    title: "پست چهارم",
-    date: "2024-06-10",
-    image: "https://via.placeholder.com/300x200",
-    excerpt: "پست چهارم شامل نکات مهمی است.",
-  },
-]);
+<script setup lang="ts">
+import { getPosts } from "@/api/blog";
+import { IPost } from "@/shared/models/blog";
+import { onMounted, ref } from "vue";
+import Spinner from "@/shared/components/ui/Spinner/Spinner.vue";
 
 const currentPage = ref(1);
 const totalPages = ref(5);
 
-const changePage = (page) => {
-  currentPage.value = page;
-  // Fetch posts for the current page (replace with actual API call)
-};
+// const changePage = (page) => {
+//   currentPage.value = page;
+//   // Fetch posts for the current page (replace with actual API call)
+// };
 
-const formatDate = (date) => {
+const posts = ref<IPost[]>([]);
+const loading = ref(true);
+
+// Fetch posts when component is mounted
+onMounted(async () => {
+  try {
+    const response = await getPosts();
+    // Store the latest 5 posts
+    posts.value = response.data;
+  } catch (error) {
+    console.error("Error fetching posts:", error);
+  } finally {
+    loading.value = false;
+  }
+});
+
+const formatDate = (date: string) => {
   const options = { year: "numeric", month: "long", day: "numeric" };
+  //@ts-ignore
   return new Date(date).toLocaleDateString("fa-IR", options);
 };
 </script>

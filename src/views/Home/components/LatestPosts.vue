@@ -1,5 +1,5 @@
 <template>
-  <div class="swiper-container mt-10 p-6">
+  <div v-if="posts.length > 0" class="swiper-container mt-10 p-6">
     <!-- Title Section -->
     <h2 class="text-2xl font-bold text-center mb-6">آخرین مطالب وبلاگ</h2>
 
@@ -17,7 +17,7 @@
       <swiper-slide v-for="(post, index) in posts" :key="index">
         <div class="relative w-full h-full">
           <img
-            :src="post.image"
+            :src="post.picture"
             alt="Post Image"
             class="w-full h-[300px] object-cover"
           />
@@ -26,7 +26,7 @@
           >
             <div>
               <h3 class="text-lg font-bold">{{ post.title }}</h3>
-              <p>{{ post.excerpt }}</p>
+              <p>{{ post.description }}</p>
             </div>
           </div>
         </div>
@@ -39,33 +39,39 @@
       >مشاهده وبلاگ</router-link
     >
   </div>
+
+  <!-- Show the spinner if still loading -->
+  <div v-else-if="loading" class="flex justify-center items-center">
+    <Spinner size="w-20" />
+  </div>
+
+  <!-- If no posts are available, show a message -->
+  <div v-else class="text-center">
+    <p class="text-lg text-gray-600">هیچ مطلبی یافت نشد</p>
+  </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { Swiper, SwiperSlide } from "swiper/vue";
 import "swiper/swiper-bundle.css"; // Use this instead of .min.css
+import { getPosts } from "@/api/blog"; // Adjust path to your API call
 
-const posts = ref([
-  {
-    image: "https://via.placeholder.com/800x400",
-    title: "مطلب اول",
-    excerpt:
-      "لورم ایپسوم متن ساختگی صنعت چاپ است که از چاپگرها و متون نمایشی استفاده می‌شود.",
-  },
-  {
-    image: "https://via.placeholder.com/800x400",
-    title: "مطلب دوم",
-    excerpt:
-      "این متن به عنوان یک متن آزمایشی در صنعت چاپ استفاده می‌شود تا نحوه طراحی و آرایش متن بررسی شود.",
-  },
-  {
-    image: "https://via.placeholder.com/800x400",
-    title: "مطلب سوم",
-    excerpt:
-      "هدف از لورم ایپسوم این است که بتوانید به صورت تصویری و بدون حواس‌پرتی از معنی متن، فقط به شکل آن توجه کنید.",
-  },
-]);
+const posts = ref<any[]>([]);
+const loading = ref(true);
+
+// Fetch posts when component is mounted
+onMounted(async () => {
+  try {
+    const response = await getPosts();
+    // Store the latest 5 posts
+    posts.value = response.data.slice(0, 5);
+  } catch (error) {
+    console.error("Error fetching posts:", error);
+  } finally {
+    loading.value = false;
+  }
+});
 </script>
 
 <style scoped>

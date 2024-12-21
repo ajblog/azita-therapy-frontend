@@ -1,9 +1,10 @@
 <template>
-  <div class="min-h-screen bg-gray-50 text-gray-800">
+  <div v-if="loading"><Spinner /></div>
+  <div v-else class="min-h-screen bg-gray-50 text-gray-800">
     <!-- Blog Header -->
     <div class="relative h-64 md:h-96 rounded-b-3xl overflow-hidden shadow-lg">
       <img
-        :src="post.image"
+        :src="posts?.picture"
         alt="Blog Image"
         class="w-full h-full object-cover brightness-50 transition-transform duration-500 hover:scale-110"
       />
@@ -13,10 +14,13 @@
         <h1
           class="text-4xl md:text-5xl font-extrabold text-white leading-snug drop-shadow-lg"
         >
-          {{ post.title }}
+          {{ posts?.title }}
         </h1>
         <p class="mt-2 text-sm text-gray-200 opacity-90">
-          {{ formatDate(post.date) }}
+          {{
+            //@ts-ignore
+            formatDate(posts?.created_at)
+          }}
         </p>
       </div>
     </div>
@@ -47,50 +51,52 @@
 
       <!-- Content -->
       <article class="leading-relaxed text-gray-700 text-lg space-y-6">
-        <p>
-          این یک نمونه متن لورم ایپسوم برای بخش محتوای مقاله است. شما می‌توانید
-          این قسمت را با محتوای واقعی جایگزین کنید. هدف این بخش نمایش زیبایی
-          صفحه و طراحی ساده و خوانا برای کاربران است.
-        </p>
-        <p>
-          لورم ایپسوم به‌عنوان متن ساختگی در طراحی و صفحه‌آرایی استفاده می‌شود و
-          بخش‌های مختلف مقاله را پر می‌کند تا طرح کلی صفحه مشخص شود.
-        </p>
-        <img
-          src="https://via.placeholder.com/800x400"
-          alt="Example"
-          class="my-8 rounded-lg shadow-md transition-shadow hover:shadow-2xl"
-        />
-        <p>
-          اینجا می‌توانید تصاویری مرتبط با مقاله قرار دهید. تصاویر می‌توانند
-          جذابیت محتوای مقاله را افزایش دهند و کاربران را به خواندن ادامه مطلب
-          تشویق کنند.
-        </p>
-        <p>
-          لورم ایپسوم استاندارد در طراحی وب و چاپ است. در اینجا متنی ساده و زیبا
-          که برای مطالعه کاربران مناسب باشد استفاده شده است.
-        </p>
+        <!-- Decode base64 content before displaying -->
+        <div v-html="decodedContent"></div>
       </article>
     </section>
   </div>
 </template>
 
-<script setup>
-import { ref } from "vue";
+<script setup lang="ts">
+import { getPostsById } from "@/api/blog";
+import { IPost } from "@/shared/models/blog";
+import { onMounted, ref, computed } from "vue";
 import { useRoute } from "vue-router";
+import Spinner from "@/shared/components/ui/Spinner/Spinner.vue";
+
+const posts = ref<IPost>();
+const loading = ref(true);
+
+// Fetch posts when component is mounted
+onMounted(async () => {
+  try {
+    console.log(route.params.id);
+    const response = await getPostsById(
+      parseInt(route.params.post_id as string)
+    );
+    // Store the latest post
+    posts.value = response.data[0];
+  } catch (error) {
+    console.error("Error fetching posts:", error);
+  } finally {
+    loading.value = false;
+  }
+});
 
 const route = useRoute();
 
-const post = ref({
-  id: route.params.id,
-  title: "عنوان مقاله",
-  date: "2024-06-15",
-  image: "https://via.placeholder.com/800x400",
-  content: "", // Placeholder for future content if needed
-});
-
-const formatDate = (date) => {
+// Function to format the date
+const formatDate = (date: string) => {
   const options = { year: "numeric", month: "long", day: "numeric" };
+  //@ts-ignore
   return new Date(date).toLocaleDateString("fa-IR", options);
 };
+
+// Computed property to decode base64 content
+const decodedContent = computed(() => {
+  return posts.value?.content
+    ? decodeURIComponent(escape(atob(posts.value?.content)))
+    : "";
+});
 </script>
