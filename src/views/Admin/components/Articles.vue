@@ -56,7 +56,7 @@
               <td class="py-4 px-4 text-right">
                 <span
                   v-for="writer of article.writer"
-                  class="inline-block bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm"
+                  class="inline-block bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm ml-2"
                 >
                   {{ writer }}
                 </span>
@@ -65,7 +65,7 @@
                 <a
                   :href="article.file_address"
                   target="_blank"
-                  class="text-blue-600 hover:text-blue-800 transition-all duration-300"
+                  class="text-blue-600 hover:text-blue-800 transition-all duration-300 ml-4"
                 >
                   <i class="fas fa-eye"></i> مشاهده
                 </a>
